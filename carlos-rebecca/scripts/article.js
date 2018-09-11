@@ -21,7 +21,12 @@ Article.prototype.toHtml = function() {
 
   // COMMENT: What is going on in the line below? What do the question mark and colon represent? How have we seen this same logic represented previously?
   // Not sure? Check the docs!
-  // PUT YOUR RESPONSE HERE
+  // This is a ternary operator, if/else.
+  // if(this.publishedOn){
+  //   `published ${this.daysAgo} days ago`
+  // } else {
+  //   '(draft)'
+  // }
   this.publishStatus = this.publishedOn ? `published ${this.daysAgo} days ago` : '(draft)';
   this.body = marked(this.body);
 
