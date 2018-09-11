@@ -60,7 +60,7 @@ Article.fetchAndAppendArticles = () => {
     Article.populateArticles();
   } else {
     $.ajax({
-      url: '../starter-code/data/hackerIpsum.json',
+      url: '../data/hackerIpsum.json',
       success: data => {
         //In order to get all the article on the page we need to process a construction of our array of articles inside the callback. Otherwise, we fetch without waiting for data and start processing. 
         Article.loadAll(data);
