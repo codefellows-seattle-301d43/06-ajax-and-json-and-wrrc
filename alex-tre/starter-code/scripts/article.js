@@ -53,6 +53,16 @@ Article.fetchAll = () => {
       url: '../starter-code/data/hackerIpsum.json',
       success: data => {
         console.log({data});
+        Article.loadAll(data);
+        Article.all.forEach(article => {
+          $('#articles').append(article.toHtml())
+        });
+        
+        articleView.populateFilters();
+        articleView.handleCategoryFilter();
+        articleView.handleAuthorFilter();
+        articleView.handleMainNav();
+        articleView.setTeasers();
       },
       error: (err) => {
         console.log(err);
