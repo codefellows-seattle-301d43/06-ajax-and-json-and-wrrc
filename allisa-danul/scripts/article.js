@@ -12,8 +12,8 @@ function Article (rawDataObj) {
 // REVIEW: Instead of a global `articles = []` array, let's attach this list of all articles directly to the constructor function. Note: it is NOT on the prototype. In JavaScript, functions are themselves objects, which means we can add properties/values to them at any time. In this case, the array relates to ALL of the Article objects, so it does not belong on the prototype, as that would only be relevant to a single instantiated Article.
 Article.all = [];
 
-// COMMENT: Why isn't this method written as an arrow function?
-// PUT YOUR RESPONSE HERE
+// COMMENT (Done): Why isn't this method written as an arrow function?
+// Because it is using the contextual this.
 Article.prototype.toHtml = function() {
   let template = Handlebars.compile($('#article-template').text());
 
@@ -21,7 +21,7 @@ Article.prototype.toHtml = function() {
 
   // COMMENT: What is going on in the line below? What do the question mark and colon represent? How have we seen this same logic represented previously?
   // Not sure? Check the docs!
-  // PUT YOUR RESPONSE HERE
+  // It is a conditional ternary operator used as a shorcut for if statements. The expression after the question mark is the true statement and the expression after the colon is the false statement.
   this.publishStatus = this.publishedOn ? `published ${this.daysAgo} days ago` : '(draft)';
   this.body = marked(this.body);
 
@@ -45,9 +45,15 @@ Article.fetchAll = () => {
   // REVIEW: What is this 'if' statement checking for? Where was the rawData set to local storage?
   if (localStorage.rawData) {
 
-    Article.loadAll();
+    Article.loadAll(JSON.parse(localStorage.rawData));
 
   } else {
-
+    $.ajax({url: 'data/hackerIpsum.json', success: function(result) {
+      localStorage.setItem('rawData', JSON.stringify(result));
+      console.log(result);
+      Article.loadAll(result);
+    }});
   }
+
 }
+Article.fetchAll();

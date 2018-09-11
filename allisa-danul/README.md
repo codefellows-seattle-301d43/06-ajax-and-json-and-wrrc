@@ -1,10 +1,8 @@
 ## Documentation
-_Your README.md must include:_
 
-```md
 # Project Name
 
-**Author**: Your Name Goes Here
+**Author**: Allisa LeBeuf and Danul De Leon
 **Version**: 1.0.0 (increment the patch/fix version number up if you make more commits past your first submission)
 
 ## Overview
