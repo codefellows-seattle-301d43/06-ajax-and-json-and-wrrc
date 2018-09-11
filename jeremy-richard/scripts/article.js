@@ -81,7 +81,6 @@ Article.fetchAll = () => {
       success: (data, message, xhr) => {
         Article.loadAll(data);
         localStorage.setItem('etag', xhr.getResponseHeader('etag'))
-        // Article.all = data;
         console.log(`Fresh data retrieved with message: ${message}`);
         localStorage.setItem('rawData', JSON.stringify(data));
         articleView.initIndexPage();
@@ -89,9 +88,4 @@ Article.fetchAll = () => {
     });
   }
 }
-//COMMENT: We used the console log and our knowledge of functions to determine the sequence of code execution. Then we verfied in the local storage to ensure proper functionality.
-
-
-
-
-
+//COMMENT: We used the console log and our knowledge of functions to determine the sequence of code execution. We ensured our functioned were being called inside the success functions of our ajax methods. Then we verfied in the local storage to ensure proper functionality.
