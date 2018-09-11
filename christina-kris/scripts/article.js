@@ -21,7 +21,7 @@ Article.prototype.toHtml = function() {
 
   // COMMENT: What is going on in the line below? What do the question mark and colon represent? How have we seen this same logic represented previously?
   // Not sure? Check the docs!
-  // The code below is a conditional ternary. It is assigning the publishStatus of each article. If the article has been published, it will grab the info about the number of days ago the article was published. Otherwise, it will use a default draft value. 
+  // The code below is a conditional ternary. It is assigning the publishStatus of each article. If the article has been published, it will grab the info about the number of days ago the article was published. Otherwise, it will use a default draft value.
   this.publishStatus = this.publishedOn ? `published ${this.daysAgo} days ago` : '(draft)';
   this.body = marked(this.body);
 
@@ -43,28 +43,21 @@ Article.loadAll = articleData => {
 // REVIEW: This function will retrieve the data from either a local or remote source, and process it, then hand off control to the View.
 Article.fetchAll = () => {
   // REVIEW: What is this 'if' statement checking for? Where was the rawData set to local storage?
-  console.log('request sent');
   if (localStorage.rawData) {
-
     Article.loadAll(rawData);
     Article.all.forEach(value => {
-      $('article').append(value.toHtml());
+      $('#articles').append(value.toHtml());
     });
-
   } else {
     $.ajax({
       url: './data/hackerIpsum.json',
       method: 'GET',
       success: (articleData) => { //in JSON file
-        //debugger;
-        console.log(articleData);
         Article.loadAll(articleData);
         Article.all.forEach(value => {
-          $('article').append(value.toHtml());
-
+          $('#articles').append(value.toHtml());
         });
-      } 
+      }
     });
   }
-    
 }
