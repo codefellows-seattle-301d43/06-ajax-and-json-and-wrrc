@@ -32,13 +32,17 @@ Article.prototype.toHtml = function() {
 
 // REVIEW: This function will take the rawData, how ever it is provided, and use it to instantiate all the articles. This code is moved from elsewhere, and encapsulated in a simply-named function for clarity.
 
-// COMMENT: Where is this function called? What does 'rawData' represent now? How is this different from previous labs?
-// PUT YOUR RESPONSE HERE
+// COMMENT/Done: Where is this function called? What does 'rawData' represent now? How is this different from previous labs?
+// rawData is a key coming from localStorage which is pulled in the fetchAll function.  This is different because we are pulling this information from an emulated json source.
 Article.loadAll = articleData => {
   console.log('Hellur!', articleData);
   articleData.sort((a,b) => (new Date(b.publishedOn)) - (new Date(a.publishedOn)))
 
   articleData.forEach(articleObject => Article.all.push(new Article(articleObject)))
+
+  Article.all.forEach(article => {
+    $('#articles').append(article.toHtml())
+  });
 }
 
 // REVIEW: This function will retrieve the data from either a local or remote source, and process it, then hand off control to the View.
@@ -47,14 +51,15 @@ Article.fetchAll = () => {
   if (localStorage.rawData) {
 
     Article.loadAll(JSON.parse(localStorage.rawData));
+    articleView.initIndexPage();
 
   } else {
     $.ajax({url: 'data/hackerIpsum.json', success: function(result) {
       localStorage.setItem('rawData', JSON.stringify(result));
       console.log(result);
       Article.loadAll(result);
+      articleView.initIndexPage();
     }});
   }
-
 }
-// Article.fetchAll();
+
