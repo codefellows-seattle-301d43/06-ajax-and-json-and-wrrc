@@ -55,8 +55,9 @@ Article.fetchAll = () => {
     $.ajax({
       url: '../data/hackerIpsum.json',
       method: 'GET',
-      success: () => {
-        console.log('response received');
+      success: (data) => {
+        console.log('data retrieved');
+        localStorage.setItem('rawData', JSON.stringify(data))
       },
 
     });
