@@ -13,7 +13,8 @@ function Article (rawDataObj) {
 Article.all = [];
 
 // COMMENT: Why isn't this method written as an arrow function?
-// PUT YOUR RESPONSE HERE
+// The contextual this is used which is not able to be used with arrow functions. With arrow functions, this applies to the window object and not the object that owns the method for regular functions.
+
 Article.prototype.toHtml = function() {
   let template = Handlebars.compile($('#article-template').text());
 
@@ -21,7 +22,8 @@ Article.prototype.toHtml = function() {
 
   // COMMENT: What is going on in the line below? What do the question mark and colon represent? How have we seen this same logic represented previously?
   // Not sure? Check the docs!
-  // PUT YOUR RESPONSE HERE
+  // It is a ternary operator that is acting as an 'if' conditional statement, so if this.publishedOn is true then the code following the '?' will run, else the string 'draft' will be returned.
+
   this.publishStatus = this.publishedOn ? `published ${this.daysAgo} days ago` : '(draft)';
   this.body = marked(this.body);
 
@@ -33,7 +35,8 @@ Article.prototype.toHtml = function() {
 // REVIEW: This function will take the rawData, how ever it is provided, and use it to instantiate all the articles. This code is moved from elsewhere, and encapsulated in a simply-named function for clarity.
 
 // COMMENT: Where is this function called? What does 'rawData' represent now? How is this different from previous labs?
-// PUT YOUR RESPONSE HERE
+// THe function is called by Article.fetchAll below. rawData is the ajax retrieved JSON information that is stored in local storage. Previously, rawData was included in a JS file.
+
 Article.loadAll = articleData => {
   articleData.sort((a,b) => (new Date(b.publishedOn)) - (new Date(a.publishedOn)))
 
@@ -43,11 +46,21 @@ Article.loadAll = articleData => {
 // REVIEW: This function will retrieve the data from either a local or remote source, and process it, then hand off control to the View.
 Article.fetchAll = () => {
   // REVIEW: What is this 'if' statement checking for? Where was the rawData set to local storage?
+  //It is checking for rawData saved in local storage, if it exists then the Article.loadAll function is called. Else, rawData will be loaded from a remote source.
   if (localStorage.rawData) {
 
     Article.loadAll();
 
   } else {
+    $.ajax({
+      url: '../data/hackerIpsum.json',
+      method: 'GET',
+      success: () => {
+        console.log('response received');
+      },
 
+    });
   }
 }
+
+Article.fetchAll();
