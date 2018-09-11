@@ -1,7 +1,7 @@
 # Kilovolt blog with AJAX
 
 **Author**: Alex Stoforandov Tre Cain
-**Version**: 1.0.0
+**Version**: 1.3.0
 
 ## Overview
 
@@ -20,6 +20,8 @@ Implementation of a webpage to display blog articles in a clear, logical way so 
 
 ## Change Log
 
+- 09-07-2018 11:12am - Add caching for article data
+- 09-07-2018 09:45am - Add retrieving blog data from external source
 - 09-07-2018 09:03am - Read me created, project started
 
 ## Credits and Collaborations
