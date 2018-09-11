@@ -49,7 +49,7 @@ Article.loadAll = articleData => {
 Article.fetchAll = () => {
   // REVIEW: What is this 'if' statement checking for? Where was the rawData set to local storage?
 
-  // TODO: Create a comment explaining sequence of code execution.
+  // We check if the data is in local storage. If it is not, we load it from the remote, and set it into local storage. The next time the page is loaded is loads from local storage.
   if (localStorage.rawData) {
     Article.loadAll(JSON.parse(localStorage.rawData));
   } else {
@@ -58,6 +58,9 @@ Article.fetchAll = () => {
       url: '../data/hackerIpsum.json',
       success: (data) => {
         localStorage.setItem('rawData', JSON.stringify(data));
+        data.forEach(el => {
+          articleView.create(el)
+        })
       },
       error: (xhr, status) => console.log(xhr.responseText)
     });
