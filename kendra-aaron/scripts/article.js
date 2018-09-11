@@ -44,7 +44,7 @@ Article.loadAll = articleData => {
 Article.fetchAll = () => {
   // REVIEW: What is this 'if' statement checking for? Where was the rawData set to local storage?
   if (localStorage.rawData) {
-    Article.loadAll(JSON.parse(localStorage.getItem('rawData')));
+    Article.loadAll(JSON.parse(localStorage.rawData));
   } else {
     // We first make a request for the data with a success function that first calls Article.loadAll on
     // the retrieved data. Then, after loading the data, it saves it as stringified JSON to localStorage.
