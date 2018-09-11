@@ -48,14 +48,12 @@ Article.fetchAll = () => {
       url: './data/hackerIpsum.json',
       method: 'HEAD',
       success: (data, message, response) => {
-        console.log('local storage exists');
         //if etag matches, load from localStorage, else make GET request for updated content
         let etag = response.getResponseHeader('eTag');
         if(etag === localStorage.eTag){
-          console.log('etag is same');
           Article.loadAll(JSON.parse(localStorage.rawData));
+          articleView.initIndexPage();
         } else{
-          console.log('no local storage exists');
           $.ajax({
             url: './data/hackerIpsum.json',
             method: 'GET',
