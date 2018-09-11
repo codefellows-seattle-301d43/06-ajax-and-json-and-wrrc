@@ -49,7 +49,8 @@ Article.fetchAll = () => {
   //It is checking for rawData saved in local storage, if it exists then the Article.loadAll function is called. Else, rawData will be loaded from a remote source.
   if (localStorage.rawData) {
 
-    Article.loadAll();
+    Article.loadAll(JSON.parse(localStorage.rawData));
+    console.log('loaded from local storage');
 
   } else {
     $.ajax({
@@ -57,11 +58,18 @@ Article.fetchAll = () => {
       method: 'GET',
       success: (data) => {
         console.log('data retrieved');
-        localStorage.setItem('rawData', JSON.stringify(data))
+        localStorage.setItem('rawData', JSON.stringify(data));
+        Article.all = JSON.stringify(data);
       },
-
     });
+
   }
+
 }
+//COMMENT: We used the console log and our knowledge of functions to determine the sequence of code execution. Then we verfied in the local storage to ensure proper functionality.
 
 Article.fetchAll();
+
+
+
+
