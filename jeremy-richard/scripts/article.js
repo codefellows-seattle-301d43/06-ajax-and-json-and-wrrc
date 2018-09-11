@@ -48,25 +48,26 @@ Article.fetchAll = () => {
   // REVIEW: What is this 'if' statement checking for? Where was the rawData set to local storage?
   //It is checking for rawData saved in local storage, if it exists then the Article.loadAll function is called. Else, rawData will be loaded from a remote source.
   if (localStorage.rawData) {
-    // Article.loadAll(JSON.parse(localStorage.rawData));
-    // console.log('loaded from local storage');
     $.ajax({
       url: '../data/hackerIpsum.json',
       method: 'HEAD',
       success: (data, message, xhr) => {
         let etag2 = xhr.getResponseHeader('etag');
+        console.log(data + message);
         if (localStorage.etag === etag2) {
           Article.loadAll(JSON.parse(localStorage.rawData));
           console.log('Content up to date, loaded from local storage');
+          articleView.initIndexPage();
         } else {
           $.ajax({
             url: '../data/hackerIpsum.json',
             method: 'GET',
             success: (data) => {
               localStorage.setItem('etag', etag2)
-              Article.all = JSON.stringify(data);
+              Article.loadAll(data);
               console.log('New Data found, replacing LocalStorage');
               localStorage.setItem('rawData', JSON.stringify(data));
+              articleView.initIndexPage();
             },
           });
         }
@@ -78,16 +79,18 @@ Article.fetchAll = () => {
       url: '../data/hackerIpsum.json',
       method: 'GET',
       success: (data, message, xhr) => {
+        Article.loadAll(data);
         localStorage.setItem('etag', xhr.getResponseHeader('etag'))
-        Article.all = JSON.stringify(data);
+        // Article.all = data;
         console.log(`Fresh data retrieved with message: ${message}`);
         localStorage.setItem('rawData', JSON.stringify(data));
-        
+        articleView.initIndexPage();
       },
     });
   }
 }
 //COMMENT: We used the console log and our knowledge of functions to determine the sequence of code execution. Then we verfied in the local storage to ensure proper functionality.
+
 
 
 
