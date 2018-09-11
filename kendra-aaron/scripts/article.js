@@ -61,6 +61,7 @@ Article.fetchAll = () => {
             method: 'GET',
             success: (data, message, response) => {
               Article.loadAll(data);
+              articleView.initIndexPage();
               //Store eTag and data in localStorage
               let etag = response.getResponseHeader('eTag');
               localStorage.setItem('eTag', etag);
