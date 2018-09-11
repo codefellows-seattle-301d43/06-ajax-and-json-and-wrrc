@@ -52,12 +52,14 @@ Article.fetchAll = () => {
         let etag = response.getResponseHeader('eTag');
         if(etag === localStorage.eTag){
           Article.loadAll(JSON.parse(localStorage.rawData));
+          articleView.initIndexPage();
         } else{
           $.ajax({
             url: './data/hackerIpsum.json',
             method: 'GET',
             success: (data, message, response) => {
               Article.loadAll(data);
+              articleView.initIndexPage();
               //Store eTag and data in localStorage
               let etag = response.getResponseHeader('eTag');
               localStorage.setItem('eTag', etag);
