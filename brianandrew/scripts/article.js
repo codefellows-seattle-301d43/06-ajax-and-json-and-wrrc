@@ -13,7 +13,7 @@ function Article (rawDataObj) {
 Article.all = [];
 
 // COMMENT: Why isn't this method written as an arrow function?
-// PUT YOUR RESPONSE HERE
+// We col;d not write this as an arrow function because an arrow function removes our ability to properly use the contextual this.
 Article.prototype.toHtml = function() {
   let template = Handlebars.compile($('#article-template').text());
 
@@ -21,7 +21,7 @@ Article.prototype.toHtml = function() {
 
   // COMMENT: What is going on in the line below? What do the question mark and colon represent? How have we seen this same logic represented previously?
   // Not sure? Check the docs!
-  // PUT YOUR RESPONSE HERE
+  // This statement checks to see if the statement is true, if so, then the text after the ? is executed else the statement ater the : is executed.  In this case if the article is already published a published on date will be insterted, otherwise it'll open up the draft page.
   this.publishStatus = this.publishedOn ? `published ${this.daysAgo} days ago` : '(draft)';
   this.body = marked(this.body);
 
