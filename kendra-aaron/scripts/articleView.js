@@ -106,9 +106,9 @@ articleView.create = () => {
   $('#article-json').val(`${JSON.stringify(article)},`);
 };
 
+Article.fetchAll();
 
-articleView.initIndexPage = () => {
-  Article.fetchAll();
+$(document).ajaxStop(articleView.initIndexPage = () => {
   Article.all.forEach(article => {
     $('#articles').append(article.toHtml())
   });
@@ -117,4 +117,4 @@ articleView.initIndexPage = () => {
   articleView.handleAuthorFilter();
   articleView.handleMainNav();
   articleView.setTeasers();
-};
+});
