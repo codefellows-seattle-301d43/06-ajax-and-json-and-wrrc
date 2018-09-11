@@ -83,6 +83,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"></script>
     <script src="scripts/article.js"></script>
     <script src="scripts/articleView.js"></script>
-    <script>articleView.initIndexPage();</script>
+    <script>
+    Article.fetchAll();
+    // We called this function here because we only want the code that pertains to the index page, since our article.js file contains code for the new.html page as well.
+    </script>
   </body>
 </html>
