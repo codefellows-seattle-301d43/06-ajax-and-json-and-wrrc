@@ -62,15 +62,15 @@ Article.fetchAndAppendArticles = () => {
   // REVIEW: What is this 'if' statement checking for? Where was the rawData set to local storage?
   let dataUrl = 'data/hackerIpsum.json';
   let logErr = err => console.log(`HTTP error code: ${err.status}`);
+
   $.ajax({ url: dataUrl, type: 'HEAD' })
     .then((data, msg, xhr) => {
       return xhr.getResponseHeader('eTag');
     })
-    .done(eTag => {
+    .then(eTag => {
       if (localStorage.getItem('eTag') === eTag && localStorage.rawData) {
         console.info('read local');
-        Article.loadAll(JSON.parse(localStorage.getItem('rawData')));
-        Article.populateArticles();
+        return JSON.parse(localStorage.getItem('rawData'));
       } else if (
         localStorage.getItem('eTag') !== eTag ||
         !localStorage.rawData ||
@@ -78,17 +78,14 @@ Article.fetchAndAppendArticles = () => {
       ) {
         console.info('fetch by ajax');
         localStorage.setItem('eTag', eTag);
-        $.ajax({
-          url: dataUrl,
-          success: data => {
-            //In order to get all the article on the page we need to process a construction of our array of articles inside the callback. Otherwise, we fetch without waiting for data and start processing.
-            Article.loadAll(data);
-            Article.populateArticles();
-            localStorage.setItem('rawData', JSON.stringify(data));
-          },
-          error: logErr
-        });
+        return $.ajax(dataUrl);
       }
+    })
+    .then(data => {
+      //In order to get all the article on the page we need to process a construction of our array of articles inside the callback. Otherwise, we fetch without waiting for data and start processing.
+      Article.loadAll(data);
+      Article.populateArticles();
+      localStorage.setItem('rawData', JSON.stringify(data));
     })
     .fail(logErr);
 };
