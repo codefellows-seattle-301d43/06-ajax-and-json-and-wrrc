@@ -44,11 +44,12 @@ Article.loadAll = articleData => {
 Article.fetchAll = () => {
   // REVIEW: What is this 'if' statement checking for? Where was the rawData set to local storage?
   if (localStorage.rawData) {
-    Article.loadAll(rawData);
+    Article.loadAll(JSON.parse(localStorage.rawData));
     Article.all.forEach(value => {
       $('#articles').append(value.toHtml());
     });
   } else {
+    //Order of execution: First we use AJAX to retrieve where we are getting the data, the method we use to retrieve the data.  If the data is successfully retrieved, then call the loadAll method to instantiate the article objects and add them to the Article.all array. Next, we loop through the Article array to grab each article and append it to the DOM.  Finally, we will cache the data to local storage.
     $.ajax({
       url: './data/hackerIpsum.json',
       method: 'GET',
@@ -57,6 +58,7 @@ Article.fetchAll = () => {
         Article.all.forEach(value => {
           $('#articles').append(value.toHtml());
         });
+        localStorage.setItem('rawData', JSON.stringify(articleData));
       }
     });
   }
