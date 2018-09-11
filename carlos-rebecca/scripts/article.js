@@ -38,7 +38,7 @@ Article.prototype.toHtml = function() {
 // REVIEW: This function will take the rawData, how ever it is provided, and use it to instantiate all the articles. This code is moved from elsewhere, and encapsulated in a simply-named function for clarity.
 
 // COMMENT: Where is this function called? What does 'rawData' represent now? How is this different from previous labs?
-// This function is called in fetchAll. In previous labs we loaded the articles from a function call at the end of the index page.
+// This function is called in fetchAll. 'rawData' was previously an array of objects defined in a separate JS file. Now, it is a string that lives in localStorage. In previous labs we loaded the articles from a function call at the end of the index page.
 Article.loadAll = articleData => {
   articleData.sort((a,b) => (new Date(b.publishedOn)) - (new Date(a.publishedOn)))
 
