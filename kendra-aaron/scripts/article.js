@@ -44,15 +44,43 @@ Article.loadAll = articleData => {
 Article.fetchAll = () => {
   // REVIEW: What is this 'if' statement checking for? Where was the rawData set to local storage?
   if (localStorage.rawData) {
-    Article.loadAll(JSON.parse(localStorage.rawData));
+    $.ajax({
+      url: './data/hackerIpsum.json',
+      method: 'HEAD',
+      success: (data, message, response) => {
+        console.log('local storage exists');
+        //if etag matches, load from localStorage, else make GET request for updated content
+        let etag = response.getResponseHeader('eTag');
+        if(etag === localStorage.eTag){
+          console.log('etag is same');
+          Article.loadAll(JSON.parse(localStorage.rawData));
+        } else{
+          console.log('no local storage exists');
+          $.ajax({
+            url: './data/hackerIpsum.json',
+            method: 'GET',
+            success: (data, message, response) => {
+              Article.loadAll(data);
+              //Store eTag and data in localStorage
+              let etag = response.getResponseHeader('eTag');
+              localStorage.setItem('eTag', etag);
+              localStorage.setItem('rawData', JSON.stringify(data));
+            }
+          });
+        }
+      }
+    })
   } else {
     // We first make a request for the data with a success function that first calls Article.loadAll on
     // the retrieved data. Then, after loading the data, it saves it as stringified JSON to localStorage.
     $.ajax({
       url: './data/hackerIpsum.json',
       method: 'GET',
-      success: (data) => {
+      success: (data, message, response) => {
         Article.loadAll(data);
+        //Store eTag and data in localStorage
+        let etag = response.getResponseHeader('eTag');
+        localStorage.setItem('eTag', etag);
         localStorage.setItem('rawData', JSON.stringify(data));
       }
     });
