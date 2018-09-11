@@ -108,5 +108,5 @@ articleView.create = () => {
 
 
 articleView.initIndexPage = () => {
-  Article.fetchAll();
+  Article.fetchAndAppendArticles();
 };

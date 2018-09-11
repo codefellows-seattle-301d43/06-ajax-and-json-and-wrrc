@@ -40,29 +40,32 @@ Article.loadAll = articleData => {
   articleData.forEach(articleObject => Article.all.push(new Article(articleObject)))
 }
 
+
+Article.populateArticles = () => {
+  Article.all.forEach(article => {
+    $('#articles').append(article.toHtml())
+  });
+  articleView.populateFilters();
+  articleView.handleCategoryFilter();
+  articleView.handleAuthorFilter();
+  articleView.handleMainNav();
+  articleView.setTeasers();
+}
+
 // REVIEW: This function will retrieve the data from either a local or remote source, and process it, then hand off control to the View.
-Article.fetchAll = () => {
+Article.fetchAndAppendArticles = () => {
   // REVIEW: What is this 'if' statement checking for? Where was the rawData set to local storage?
   if (localStorage.rawData) {
-
-    Article.loadAll();
-
+    Article.loadAll(JSON.parse(localStorage.getItem('rawData')));
+    Article.populateArticles();
   } else {
-    console.log('started');
     $.ajax({
       url: '../starter-code/data/hackerIpsum.json',
       success: data => {
-        console.log({data});
+        //In order to get all the article on the page we need to process a construction of our array of articles inside the callback. Otherwise, we fetch without waiting for data and start processing. 
         Article.loadAll(data);
-        Article.all.forEach(article => {
-          $('#articles').append(article.toHtml())
-        });
-        
-        articleView.populateFilters();
-        articleView.handleCategoryFilter();
-        articleView.handleAuthorFilter();
-        articleView.handleMainNav();
-        articleView.setTeasers();
+        Article.populateArticles();
+        localStorage.setItem('rawData', JSON.stringify(data));
       },
       error: (err) => {
         console.log(err);
