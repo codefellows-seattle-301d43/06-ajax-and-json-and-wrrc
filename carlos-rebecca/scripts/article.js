@@ -40,6 +40,7 @@ Article.prototype.toHtml = function() {
 // COMMENT: Where is this function called? What does 'rawData' represent now? How is this different from previous labs?
 // This function is called in fetchAll. 'rawData' was previously an array of objects defined in a separate JS file. It was a string that lived in localStorage, but now it's back to being a JS object because we have parsed the string in the .fetchAll method. In previous labs we loaded the articles from a function call at the end of the index page.
 Article.loadAll = articleData => {
+
   articleData.sort((a,b) => (new Date(b.publishedOn)) - (new Date(a.publishedOn)))
 
   articleData.forEach(articleObject => Article.all.push(new Article(articleObject)))
@@ -58,11 +59,9 @@ Article.fetchAll = () => {
       url: '../data/hackerIpsum.json',
       success: (data) => {
         localStorage.setItem('rawData', JSON.stringify(data));
-        data.forEach(el => {
-          articleView.create(el)
-        })
+        Article.loadAll(data);
       },
-      error: (xhr, status) => console.log(xhr.responseText)
+      error: (xhr) => console.log(xhr.responseText)
     });
   }
 }
