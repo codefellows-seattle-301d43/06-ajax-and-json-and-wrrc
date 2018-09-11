@@ -15,4 +15,4 @@ HTML/CSS, javascript, jQuery, JSON
 ## Change Log
 09-11-2018 10:06am - Application now loads article data from hackerIpsum.json OR localStorage (if it exists)
 
-09-11-2018 16:35am - Application changed to match prescribed solution so that we can get points back after being penalized for attempting the stretch goal. Extra closing comment tag in README.md (copied from lab instructions) removed.
+09-11-2018 16:35am - Application changed to match prescribed solution so that we can get points back after attempting the stretch goal. Extra closing comment tag in README.md removed. Lesson learned: do not attempt stretch goal unless you know exactly what the instructor wants.
