@@ -47,6 +47,9 @@ Article.fetchAll = () => {
   if (localStorage.rawData) {
 
     Article.loadAll(rawData);
+    Article.all.forEach(value => {
+      $('article').append(value.toHtml());
+    });
 
   } else {
     $.ajax({
@@ -55,15 +58,13 @@ Article.fetchAll = () => {
       success: (articleData) => { //in JSON file
         //debugger;
         console.log(articleData);
-        articleData.forEach( (value, i) => {
-          Article.loadAll(value[i])
+        Article.loadAll(articleData);
+        Article.all.forEach(value => {
+          $('article').append(value.toHtml());
+
         });
       } 
     });
   }
-
-  Article.all.forEach(value => {
-    value.toHtml();
-  });
     
 }
