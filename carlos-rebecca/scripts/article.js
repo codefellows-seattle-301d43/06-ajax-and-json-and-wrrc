@@ -55,8 +55,7 @@ Article.fetchAll = () => {
       method: 'GET',
       url: '../data/hackerIpsum.json',
       success: (data) => {
-        console.log('response received')
-        console.log(data);
+        localStorage.setItem('rawData', JSON.stringify(data));
       },
       error: (xhr, status) => console.log(xhr.responseText)
     });
