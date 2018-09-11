@@ -44,9 +44,10 @@ Article.loadAll = articleData => {
 Article.fetchAll = () => {
   // REVIEW: What is this 'if' statement checking for? Where was the rawData set to local storage?
   if (localStorage.rawData) {
-    console.log('local storage exists');
     Article.loadAll(JSON.parse(localStorage.getItem('rawData')));
   } else {
+    // We first make a request for the data with a success function that first calls Article.loadAll on
+    // the retrieved data. Then, after loading the data, it saves it as stringified JSON to localStorage.
     $.ajax({
       url: './data/hackerIpsum.json',
       method: 'GET',
