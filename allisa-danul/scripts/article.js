@@ -35,6 +35,7 @@ Article.prototype.toHtml = function() {
 // COMMENT: Where is this function called? What does 'rawData' represent now? How is this different from previous labs?
 // PUT YOUR RESPONSE HERE
 Article.loadAll = articleData => {
+  console.log('Hellur!', articleData);
   articleData.sort((a,b) => (new Date(b.publishedOn)) - (new Date(a.publishedOn)))
 
   articleData.forEach(articleObject => Article.all.push(new Article(articleObject)))
@@ -56,4 +57,4 @@ Article.fetchAll = () => {
   }
 
 }
-Article.fetchAll();
+// Article.fetchAll();
