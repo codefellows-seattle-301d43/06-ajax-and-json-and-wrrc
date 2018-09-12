@@ -54,6 +54,7 @@ Article.fetchAll = () => {
 
   } else {
     $.ajax({url: 'data/hackerIpsum.json', success: function(result) {
+      //The sequence of the functions determines how everything will run.  We need to make sure that there is raw data to use before triggering the next functions which will populate the index page.
       localStorage.setItem('rawData', JSON.stringify(result));
       Article.loadAll(result);
       articleView.initIndexPage();
