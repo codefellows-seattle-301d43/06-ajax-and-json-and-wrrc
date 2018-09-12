@@ -58,8 +58,9 @@ Article.fetchAll = () => {
       method: 'GET',
       url: '../data/hackerIpsum.json',
       success: (data) => {
-        localStorage.setItem('rawData', JSON.stringify(data));
         Article.loadAll(data);
+        articleView.initIndexPage();
+        localStorage.setItem('rawData', JSON.stringify(data));
       },
       error: (xhr) => console.log(xhr.responseText)
     });
